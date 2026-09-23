@@ -22,11 +22,32 @@ namespace Progra_JauresWilson
         public Menu_principal()
         {
             InitializeComponent();
+            MainContent.Content = new Menu_principal();
+        }
+
+        private void BtnBack_Click(object sender, RoutedEventArgs e)
+        {
+            MainContent.Content = new Menu_principal();
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            //MainContent.Content = new EmailView();
+            MainContent.Content = new MainWindow();
+        }
+
+        private void BtnEmail_Click(object sender, RoutedEventArgs e)
+        {
+            MainWindow mailWindow = new MainWindow();
+            mailWindow.Show();
+            this.Close(); // Ferme le menu principal (optionnel)
+        }
+
+        private void BtnHome_Click(object sender, RoutedEventArgs e)
+        {
+            // Logique à exécuter au clic (ex: ouvrir la fenêtre principale)
+            MainWindow main = new MainWindow();
+            main.Show();
+            this.Close();
         }
     }
 }

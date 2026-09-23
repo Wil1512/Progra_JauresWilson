@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Progra_JauresWilson"
         mc:Ignorable="d"
-        Title="Menu_principal" Height="450" Width="800">
+        Height="450" Width="800">
     <Grid>
         <Border Grid.Column="0" Background="#2D2D30">
             <StackPanel Margin="10,20,10,10">
@@ -21,7 +21,7 @@
             </StackPanel>
         </Border>
 
-        
+
         <ContentControl x:Name="MainContent" Grid.Column="1"/>
     </Grid>
 </Window>
