@@ -26,7 +26,7 @@ namespace Progra_JauresWilson
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            //MainContent.Content = new EmailView();
+            MainContent.Content = new EmailView();
         }
     }
 }
