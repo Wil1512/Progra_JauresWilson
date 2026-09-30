@@ -82,6 +82,7 @@ namespace Progra_JauresWilson
             Menu_principal menu = new Menu_principal();
             menu.Show();
             this.Close();
+
         }
     }
 }
