@@ -18,8 +18,12 @@ namespace Progra_JauresWilson
     /// </summary>
     public partial class MainWindow : Window
     {
+
         private readonly string emailExpediteur = "tatebongwilson@gmail.com";
         private const string motDePasseExpediteur = "ibjfqfpjxodxhalz";
+
+        private const string SENDER_APP_PASSWORD = "ibjfqfpjxodxhalz";
+
         public MainWindow()
         {
             InitializeComponent();
@@ -28,16 +32,48 @@ namespace Progra_JauresWilson
         private async void BtnSend_Click(object sender, RoutedEventArgs e)
         {
 
+
             if (string.IsNullOrWhiteSpace(txtTo.Text) || string.IsNullOrWhiteSpace(txtSubject.Text))
             {
                 MessageBox.Show("Veuillez remplir tous les champs obligatoires (destinataire et objet).",
+
+            if (string.IsNullOrWhiteSpace(txtFrom.Text) ||
+                string.IsNullOrWhiteSpace(txtTo.Text) ||
+                string.IsNullOrWhiteSpace(txtSubject.Text))
+            {
+                MessageBox.Show("Veuillez remplir tous les champs obligatoires (adresse expéditeur, destinataire et objet).",
+
                                 "Champs manquants", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
 
-            // Configuration SMTP automatique pour Gmail (basée sur emailExpediteur)
+
             string smtpServer = "smtp.gmail.com";
             int smtpPort = 587;
+
+
+            string senderEmail = txtFrom.Text.Trim();
+
+            string smtpServer = "";
+            int smtpPort = 587;
+
+            if (senderEmail.EndsWith("@gmail.com", StringComparison.OrdinalIgnoreCase))
+            {
+                smtpServer = "smtp.gmail.com";
+            }
+            else if (senderEmail.EndsWith("@outlook.com", StringComparison.OrdinalIgnoreCase) ||
+                     senderEmail.EndsWith("@hotmail.com", StringComparison.OrdinalIgnoreCase) ||
+                     senderEmail.EndsWith("@live.com", StringComparison.OrdinalIgnoreCase))
+            {
+                smtpServer = "smtp.office365.com";
+            }
+            else
+            {
+                MessageBox.Show("Veuillez utiliser un compte Gmail, Outlook ou Hotmail.",
+                                "Fournisseur non pris en charge", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
 
             try
             {
@@ -51,7 +87,13 @@ namespace Progra_JauresWilson
                     using (SmtpClient smtpClient = new SmtpClient(smtpServer, smtpPort))
                     {
                         smtpClient.UseDefaultCredentials = false;
+<<<<<<< HEAD
                         smtpClient.Credentials = new NetworkCredential(emailExpediteur, motDePasseExpediteur);
+=======
+
+                        // Utilisation de la constante non modifiable pour l'authentification
+                        smtpClient.Credentials = new NetworkCredential(senderEmail, SENDER_APP_PASSWORD);
+>>>>>>> 10bebe958c75aea1652ae1d65ab49b7d80e08b7b
                         smtpClient.EnableSsl = true;
 
                         await smtpClient.SendMailAsync(mail);
@@ -60,8 +102,11 @@ namespace Progra_JauresWilson
 
                 MessageBox.Show("Message envoyé avec succès !", "Succès", MessageBoxButton.OK, MessageBoxImage.Information);
 
+<<<<<<< HEAD
                 // Réinitialisation des champs après envoi
                 txtTo.Clear();
+=======
+>>>>>>> 10bebe958c75aea1652ae1d65ab49b7d80e08b7b
                 txtSubject.Clear();
                 txtBody.Clear();
             }
