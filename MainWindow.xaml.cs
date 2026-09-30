@@ -18,6 +18,8 @@ namespace Progra_JauresWilson
     /// </summary>
     public partial class MainWindow : Window
     {
+        private readonly string emailExpediteur = "tatebongwilson@gmail.com";
+        private const string motDePasseExpediteur = "ibjfqfpjxodxhalz";
         public MainWindow()
         {
             InitializeComponent();
@@ -25,47 +27,23 @@ namespace Progra_JauresWilson
 
         private async void BtnSend_Click(object sender, RoutedEventArgs e)
         {
-            // Validation de la saisie utilisateur
-            if (string.IsNullOrWhiteSpace(txtFrom.Text) ||
-                string.IsNullOrWhiteSpace(txtPassword.Password) ||
-                string.IsNullOrWhiteSpace(txtTo.Text) ||
-                string.IsNullOrWhiteSpace(txtSubject.Text))
+
+            if (string.IsNullOrWhiteSpace(txtTo.Text) || string.IsNullOrWhiteSpace(txtSubject.Text))
             {
-                MessageBox.Show("Veuillez remplir tous les champs obligatoires (adresse, mot de passe, destinataire et objet).",
+                MessageBox.Show("Veuillez remplir tous les champs obligatoires (destinataire et objet).",
                                 "Champs manquants", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
 
-            string senderEmail = txtFrom.Text.Trim();
-            string senderPassword = txtPassword.Password; // Récupération du mot de passe saisi
-
-            // Détection dynamique du serveur SMTP selon le domaine
-            string smtpServer = "";
+            // Configuration SMTP automatique pour Gmail (basée sur emailExpediteur)
+            string smtpServer = "smtp.gmail.com";
             int smtpPort = 587;
 
-            if (senderEmail.EndsWith("@gmail.com", StringComparison.OrdinalIgnoreCase))
-            {
-                smtpServer = "smtp.gmail.com";
-            }
-            else if (senderEmail.EndsWith("@outlook.com", StringComparison.OrdinalIgnoreCase) ||
-                     senderEmail.EndsWith("@hotmail.com", StringComparison.OrdinalIgnoreCase) ||
-                     senderEmail.EndsWith("@live.com", StringComparison.OrdinalIgnoreCase))
-            {
-                smtpServer = "smtp.office365.com";
-            }
-            else
-            {
-                MessageBox.Show("Veuillez utiliser un compte Gmail, Outlook ou Hotmail.",
-                                "Fournisseur non pris en charge", MessageBoxButton.OK, MessageBoxImage.Warning);
-                return;
-            }
-
-            // Construction et envoi du courriel
             try
             {
                 using (MailMessage mail = new MailMessage())
                 {
-                    mail.From = new MailAddress(senderEmail);
+                    mail.From = new MailAddress(emailExpediteur);
                     mail.To.Add(txtTo.Text.Trim());
                     mail.Subject = txtSubject.Text.Trim();
                     mail.Body = txtBody.Text;
@@ -73,23 +51,23 @@ namespace Progra_JauresWilson
                     using (SmtpClient smtpClient = new SmtpClient(smtpServer, smtpPort))
                     {
                         smtpClient.UseDefaultCredentials = false;
-                        smtpClient.Credentials = new NetworkCredential(senderEmail, senderPassword);
+                        smtpClient.Credentials = new NetworkCredential(emailExpediteur, motDePasseExpediteur);
                         smtpClient.EnableSsl = true;
 
-                        // Envoi asynchrone
                         await smtpClient.SendMailAsync(mail);
                     }
                 }
 
                 MessageBox.Show("Message envoyé avec succès !", "Succès", MessageBoxButton.OK, MessageBoxImage.Information);
 
-                // Réinitialisation des champs après l'envoi réussi
+                // Réinitialisation des champs après envoi
+                txtTo.Clear();
                 txtSubject.Clear();
                 txtBody.Clear();
             }
             catch (SmtpException ex)
             {
-                MessageBox.Show($"Erreur d'authentification ou SMTP : {ex.Message}\n\nAssurez-vous d'utiliser une clé d'application à 16 caractères.",
+                MessageBox.Show($"Erreur d'authentification ou SMTP : {ex.Message}",
                                 "Erreur d'envoi", MessageBoxButton.OK, MessageBoxImage.Error);
             }
             catch (Exception ex)

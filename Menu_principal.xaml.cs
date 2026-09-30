@@ -22,24 +22,19 @@ namespace Progra_JauresWilson
         public Menu_principal()
         {
             InitializeComponent();
-            MainContent.Content = new Menu_principal();
+ 
         }
 
         private void BtnBack_Click(object sender, RoutedEventArgs e)
         {
-            MainContent.Content = new Menu_principal();
-        }
-
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            MainContent.Content = new MainWindow();
+            MessageBox.Show("Vous êtes déjà sur le menu principal.", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
         private void BtnEmail_Click(object sender, RoutedEventArgs e)
         {
             MainWindow mailWindow = new MainWindow();
             mailWindow.Show();
-            this.Close(); // Ferme le menu principal (optionnel)
+            this.Close();
         }
 
         private void BtnHome_Click(object sender, RoutedEventArgs e)
@@ -48,6 +43,12 @@ namespace Progra_JauresWilson
             MainWindow main = new MainWindow();
             main.Show();
             this.Close();
+        }
+
+        private void BtnTodo_Click(object sender, RoutedEventArgs e)
+        {
+            TodoWindow todoWin = new TodoWindow();
+            todoWin.Show();
         }
     }
 }

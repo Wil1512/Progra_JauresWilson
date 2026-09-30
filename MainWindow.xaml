@@ -20,12 +20,9 @@
             <TextBlock Text="Formulaire d'envoi d'e-mail" FontSize="22" FontWeight="Bold" Margin="0,0,0,20"/>
 
             <!-- Expéditeur -->
-            <TextBlock Text="Votre adresse e-mail :" FontWeight="SemiBold" Margin="0,0,0,5"/>
-            <TextBox x:Name="txtFrom" Height="30" Margin="0,0,0,15" VerticalContentAlignment="Center"/>
+            <TextBlock Text="Votre adresse e-mail :"/>
+            <TextBox x:Name="TxtExpediteur" Text="tatebongwilson@gmail.com" IsReadOnly="True" Background="#F0F0F0"/>
 
-            <!-- Champ Mot de passe ajouté ici -->
-            <TextBlock Text="Mot de passe :" FontWeight="SemiBold" Margin="0,0,0,5"/>
-            <PasswordBox x:Name="txtPassword" Height="30" Margin="0,0,0,15" VerticalContentAlignment="Center"/>
 
             <!-- Destinataire -->
             <TextBlock Text="Destinataire :" FontWeight="SemiBold" Margin="0,0,0,5"/>
