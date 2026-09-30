@@ -18,6 +18,7 @@ namespace Progra_JauresWilson
     /// </summary>
     public partial class MainWindow : Window
     {
+        private const string SENDER_APP_PASSWORD = "ibjfqfpjxodxhalz";
         public MainWindow()
         {
             InitializeComponent();
@@ -25,21 +26,20 @@ namespace Progra_JauresWilson
 
         private async void BtnSend_Click(object sender, RoutedEventArgs e)
         {
-            // Validation de la saisie utilisateur
+
+            // Validation des champs (le mot de passe n'est plus demandé à l'utilisateur)
             if (string.IsNullOrWhiteSpace(txtFrom.Text) ||
-                string.IsNullOrWhiteSpace(txtPassword.Password) ||
                 string.IsNullOrWhiteSpace(txtTo.Text) ||
                 string.IsNullOrWhiteSpace(txtSubject.Text))
             {
-                MessageBox.Show("Veuillez remplir tous les champs obligatoires (adresse, mot de passe, destinataire et objet).",
+                MessageBox.Show("Veuillez remplir tous les champs obligatoires (adresse expéditeur, destinataire et objet).",
                                 "Champs manquants", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
 
             string senderEmail = txtFrom.Text.Trim();
-            string senderPassword = txtPassword.Password; // Récupération du mot de passe saisi
 
-            // Détection dynamique du serveur SMTP selon le domaine
+            // Détection du serveur SMTP selon le domaine
             string smtpServer = "";
             int smtpPort = 587;
 
@@ -60,7 +60,6 @@ namespace Progra_JauresWilson
                 return;
             }
 
-            // Construction et envoi du courriel
             try
             {
                 using (MailMessage mail = new MailMessage())
@@ -73,23 +72,23 @@ namespace Progra_JauresWilson
                     using (SmtpClient smtpClient = new SmtpClient(smtpServer, smtpPort))
                     {
                         smtpClient.UseDefaultCredentials = false;
-                        smtpClient.Credentials = new NetworkCredential(senderEmail, senderPassword);
+
+                        // Utilisation de la constante non modifiable pour l'authentification
+                        smtpClient.Credentials = new NetworkCredential(senderEmail, SENDER_APP_PASSWORD);
                         smtpClient.EnableSsl = true;
 
-                        // Envoi asynchrone
                         await smtpClient.SendMailAsync(mail);
                     }
                 }
 
                 MessageBox.Show("Message envoyé avec succès !", "Succès", MessageBoxButton.OK, MessageBoxImage.Information);
 
-                // Réinitialisation des champs après l'envoi réussi
                 txtSubject.Clear();
                 txtBody.Clear();
             }
             catch (SmtpException ex)
             {
-                MessageBox.Show($"Erreur d'authentification ou SMTP : {ex.Message}\n\nAssurez-vous d'utiliser une clé d'application à 16 caractères.",
+                MessageBox.Show($"Erreur d'authentification ou SMTP : {ex.Message}",
                                 "Erreur d'envoi", MessageBoxButton.OK, MessageBoxImage.Error);
             }
             catch (Exception ex)
