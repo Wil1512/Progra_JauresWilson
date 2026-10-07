@@ -50,5 +50,11 @@ namespace Progra_JauresWilson
             TodoWindow todoWin = new TodoWindow();
             todoWin.Show();
         }
+
+        private void BtnChrono_Click(object sender, RoutedEventArgs e)
+        {
+            ChronoWindow chronoWin = new ChronoWindow();
+            chronoWin.Show();
+        }
     }
 }

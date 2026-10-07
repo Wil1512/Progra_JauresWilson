@@ -16,6 +16,9 @@
 
             <Button x:Name="BtnTodo" Content="To-Do List" Height="40" Margin="0,0,0,10" 
                     Click="BtnTodo_Click" Background="#3E3E42" Foreground="White" BorderThickness="0" FontWeight="SemiBold"/>
+           
+            <Button Content="Chronomètre" Height="40" Margin="0,0,0,10" 
+                    Click="BtnChrono_Click" Background="#3E3E42" Foreground="White" BorderThickness="0" FontWeight="SemiBold"/>
         </StackPanel>
     </Border>
 </Window>
